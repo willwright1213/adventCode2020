@@ -1,7 +1,5 @@
 $instruction_list = []
-$visited = {}
 $acc = 0
-i = 0
 
 #this will attempt to fix the program and update the instruction list
 #It itterates through the array of instruction to find every "nop" and "jmp".
@@ -34,7 +32,7 @@ end
 #Execute the instructions and return $acc value
 def execute(i)
 	ind = i
-	$visited[ind] = true
+	$instruction_list[ind][2] = true
 	if($instruction_list[i][0] == "nop")
 		ind += 1
 	end
@@ -48,7 +46,7 @@ def execute(i)
 	if(i > $instruction_list.size - 2)
 		return $acc
 	end
-	if($visited.fetch(ind) == true)
+	if($instruction_list[ind][2] == true)
 		return $acc
 	end
 	execute(ind)
@@ -57,7 +55,7 @@ end
 #This checks if there's a loop going on in the code.
 def check_for_loop(i)
 	ind = i
-	$visited[ind] = true
+	$instruction_list[ind][2] = true
 	if($instruction_list[i][0] == "nop" || $instruction_list[i][0] == "acc")
 		ind += 1
 	end
@@ -68,7 +66,7 @@ def check_for_loop(i)
 		reset
 		return false
 	end
-	if($visited.fetch(ind) == true)
+	if($instruction_list[ind][2] == true)
 		reset
 		return true
 	end
@@ -78,9 +76,9 @@ end
 #reset acc to 0 and all visited instructions to false
 def reset
 	$acc = 0
-	$visited.each{|key , value|
-		$visited[key] = false
-	}
+	for i in 0.. ($instruction_list.size - 1)
+		$instruction_list[i][2] = false
+	end
 end
 
 #Scanning file input
@@ -94,9 +92,6 @@ File.foreach("input.txt") { |line|
 	instruction.push(action_value)
 	instruction.push(false)
 	$instruction_list.push(instruction)
-	$visited[i] = false
-	i += 1
-
 }
 
 puts execute(0)
