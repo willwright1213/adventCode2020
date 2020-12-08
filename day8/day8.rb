@@ -25,7 +25,7 @@ def fix
 				$instruction_list[i][0] = "jmp"
 		end
 	end
-	return 0
+	return
 end
 
 
@@ -35,18 +35,13 @@ def execute(i)
 	$instruction_list[ind][2] = true
 	if($instruction_list[i][0] == "nop")
 		ind += 1
-	end
-	if($instruction_list[i][0] == "acc")
+	elsif($instruction_list[i][0] == "acc")
 		$acc += $instruction_list[i][1]
 		ind += 1
+	else
+		ind += $instruction_list[i][1]
 	end
-	if($instruction_list[i][0] == "jmp")
-		ind += $instruction_list[i][1]	
-	end
-	if(i > $instruction_list.size - 2)
-		return $acc
-	end
-	if($instruction_list[ind][2] == true)
+	if(i > $instruction_list.size - 2 || $instruction_list[ind][2] == true)
 		return $acc
 	end
 	execute(ind)
@@ -54,19 +49,19 @@ end
 
 #This checks if there's a loop going on in the code.
 def check_for_loop(i)
+	#execute instructions
 	ind = i
 	$instruction_list[ind][2] = true
 	if($instruction_list[i][0] == "nop" || $instruction_list[i][0] == "acc")
 		ind += 1
-	end
-	if($instruction_list[i][0] == "jmp")
+	else
 		ind += $instruction_list[i][1]	
 	end
+	#check if there's a loop
 	if(i > $instruction_list.size - 2)
 		reset
 		return false
-	end
-	if($instruction_list[ind][2] == true)
+	elsif($instruction_list[ind][2] == true)
 		reset
 		return true
 	end
