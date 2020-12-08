@@ -1,7 +1,6 @@
 
 def findTheGoldenBag(root_bag, bag_color)
   isFound = false;
-  
   if(root_bag.fetch(bag_color).has_key?("shiny gold"))
     isFound = true
   end
