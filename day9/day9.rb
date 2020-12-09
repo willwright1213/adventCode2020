@@ -38,8 +38,6 @@ def find_sum(i)
                 biggest = $preamble[k]
             end
             if(sum == start)
-                puts smallest
-                puts biggest
                 return smallest + biggest
             end
         end
