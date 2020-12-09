@@ -25,9 +25,7 @@ end
 
 
 def find_sum(i)
-    sum = 0
     start = $preamble[i]
-
     for j in 0..(i-1)
         sum = 0
         smallest = $preamble[i]
